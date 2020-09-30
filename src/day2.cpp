@@ -6,6 +6,9 @@
 
 namespace day2
 {
+    int run_program(aoc::IntcodeProgram *program, int noun, int verb);
+    std::pair<int, int> find_program(aoc::IntcodeProgram *program, int target);
+
     int run()
     {
         std::ifstream inputfile("input/day2.txt");
