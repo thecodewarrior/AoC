@@ -12,10 +12,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    int day_count = 2;
+    int day_count = 3;
     int (*days[])() = {
         day1::run,
-        day2::run
+        day2::run,
+        day3::run
     };
 
     int day = atoi(argv[1]);

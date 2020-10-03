@@ -9,7 +9,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/bin/main",
-      "args": ["2"],
+      "args": ["3"],
       "cwd": "${workspaceFolder}/run",
       "environment": [],
       "externalConsole": true,

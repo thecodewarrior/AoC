@@ -5,11 +5,16 @@
 namespace day1
 {
     int run();
-} // namespace day1
+}
 
 namespace day2
 {
     int run();
-} // namespace day2
+}
+
+namespace day3
+{
+    int run();
+}
 
 #endif

@@ -1,10 +1,11 @@
 #ifndef _AOC_UTILS_H
 #define _AOC_UTILS_H
+
 #include <iostream>
 #include <vector>
+#include <map>
 
-namespace aoc
-{
+namespace aoc {
     // const char *ansi_reset = "\x1b[0m";
     // const char *ansi_bold_on = "\x1b[1m";
     // const char *ansi_bold_off = "\x1b[22m";
@@ -53,28 +54,79 @@ namespace aoc
     // const char *ansi_bg_light_cyan = "\x1b[106m";
     // const char *ansi_bg_light_white = "\x1b[107m";
 
-    struct IntcodeProgram
-    {
+    // first used in day 2
+    struct IntcodeProgram {
     private:
         std::vector<int> program;
 
     public:
-        IntcodeProgram(std::istream *stream);
+        explicit IntcodeProgram(std::istream *stream);
+
         std::vector<int> create_memory();
     };
 
-    class IntcodeComputer
-    {
+    class IntcodeComputer {
     private:
         bool halted = false;
         size_t pc = 0;
         std::vector<int> memory;
 
     public:
-        IntcodeComputer(IntcodeProgram *program);
+        explicit IntcodeComputer(IntcodeProgram *program);
+
         int &operator[](size_t address);
+
         void reset();
+
         void run();
+    };
+
+    template<typename T>
+    struct point {
+    public:
+        T x, y;
+
+        point(T x, T y) : x(x), y(y) {}
+
+        point() : x(0), y(0) {}
+
+        point operator+(const point &other) const {
+            return point(x + other.x, y + other.y);
+        }
+
+        point operator-(const point &other) const {
+            return point(x - other.x, y - other.y);
+        }
+
+        point operator*(const point &other) const {
+            return point(x * other.x, y * other.y);
+        }
+
+        point operator*(const T &other) const {
+            return point(x * other, y * other);
+        }
+
+        bool operator==(const point &rhs) const {
+            return x == rhs.x &&
+                   y == rhs.y;
+        }
+
+        bool operator!=(const point &rhs) const {
+            return !(rhs == *this);
+        }
+
+        T manhattan_distance(const point &other) const {
+            T distance_x = x < other.x ? other.x - x : x - other.x;
+            if (distance_x < 0) {
+                distance_x = -distance_x;
+            }
+            T distance_y = y < other.y ? other.y - y : y - other.y;
+            if (distance_y < 0) {
+                distance_y = -distance_y;
+            }
+            return distance_x + distance_y;
+        }
+
     };
 
 } // namespace aoc
