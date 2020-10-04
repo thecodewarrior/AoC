@@ -4,33 +4,33 @@
 #include <vector>
 #include "days.h"
 
-namespace day2
-{
+namespace day2 {
     int run_program(aoc::IntcodeProgram *program, int noun, int verb);
+
     std::pair<int, int> find_program(aoc::IntcodeProgram *program, int target);
 
-    int run()
-    {
+    aoc::DayResult run(std::ostream &out) {
+        aoc::DayResult result;
         std::ifstream inputfile("input/day2.txt");
 
-        if (!inputfile.is_open())
-        {
+        if (!inputfile.is_open()) {
             std::cout << "Unable to open file";
-            return 1;
+            return aoc::DayResult(1);
         }
         aoc::IntcodeProgram program(&inputfile);
         inputfile.close();
 
-        printf("1202 result (part one): %d\n", run_program(&program, 12, 2));
+        result.results.emplace_back("", true, "Program length", program.program_length());
+
+        result.results.emplace_back("Part one", false, "1202 result", run_program(&program, 12, 2));
 
         auto search_result = find_program(&program, 19690720);
-        printf("Search result (part two): %d\n", 100 * search_result.first + search_result.second);
+        result.results.emplace_back("Part two", false, "Search result", 100 * search_result.first + search_result.second);
 
-        return 0;
+        return result;
     }
 
-    int run_program(aoc::IntcodeProgram *program, int noun, int verb)
-    {
+    int run_program(aoc::IntcodeProgram *program, int noun, int verb) {
         aoc::IntcodeComputer computer(program);
 
         computer[1] = noun;
@@ -41,15 +41,10 @@ namespace day2
         return computer[0];
     }
 
-    std::pair<int, int> find_program(aoc::IntcodeProgram *program, int target)
-    {
-        printf("Searching for result %d\n", target);
-        for (int noun = 0; noun < 100; noun++)
-        {
-            for (int verb = 0; verb < 100; verb++)
-            {
-                if (run_program(program, noun, verb) == target)
-                {
+    std::pair<int, int> find_program(aoc::IntcodeProgram *program, int target) {
+        for (int noun = 0; noun < 100; noun++) {
+            for (int verb = 0; verb < 100; verb++) {
+                if (run_program(program, noun, verb) == target) {
                     return std::pair<int, int>(noun, verb);
                 }
             }

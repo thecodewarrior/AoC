@@ -1,6 +1,7 @@
 #include "aoc_utils.h"
 #include <fstream>
 #include <string>
+#include <utility>
 
 namespace aoc {
     IntcodeProgram::IntcodeProgram(std::istream *stream) {
@@ -8,8 +9,10 @@ namespace aoc {
         while (getline(*stream, line, ',')) {
             program.push_back(std::stoi(line));
         }
+    }
 
-        printf("Loaded program with length %d\n", (int) program.size());
+    size_t IntcodeProgram::program_length() {
+        return program.size();
     }
 
     std::vector<int> IntcodeProgram::create_memory() {
@@ -57,4 +60,14 @@ namespace aoc {
             }
         }
     }
+
+    DayResult::DayResult() = default;
+
+    DayResult::DayResult(int return_code) : return_code(return_code) {}
+
+    ResultPart::ResultPart(std::string part_name, bool is_trivia, std::string description, int value) :
+            part_name(std::move(part_name)), is_trivia(is_trivia), description(std::move(description)), value(value) {
+    }
+
+    ResultPart::ResultPart() = default;
 } // namespace aoc

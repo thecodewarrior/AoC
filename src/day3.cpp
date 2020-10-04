@@ -12,7 +12,8 @@ namespace day3 {
         aoc::point<int> point;
         int time_a, time_b, time;
 
-        Intersection(const aoc::point<int> &point, int timeA, int timeB) : point(point), time_a(timeA), time_b(timeB), time(timeA + timeB) {}
+        Intersection(const aoc::point<int> &point, int timeA, int timeB) : point(point), time_a(timeA), time_b(timeB),
+                                                                           time(timeA + timeB) {}
     };
 
     struct Segment {
@@ -33,14 +34,14 @@ namespace day3 {
                     other.start <= position && position <= other.end) {
 
                     aoc::point<int> point = vertical
-                            ? aoc::point<int>(position, other.position)
-                            : aoc::point<int>(other.position, position);
+                                            ? aoc::point<int>(position, other.position)
+                                            : aoc::point<int>(other.position, position);
 
-                    list.push_back(Intersection(
-                        point,
-                        start_time + time_direction * (other.position - start),
-                        other.start_time + other.time_direction * (position - other.start)
-                    ));
+                    list.emplace_back(
+                            point,
+                            start_time + time_direction * (other.position - start),
+                            other.start_time + other.time_direction * (position - other.start)
+                    );
                 }
             } else {
                 if (position == other.position) {
@@ -51,11 +52,11 @@ namespace day3 {
                                 vertical
                                 ? aoc::point<int>(position, i)
                                 : aoc::point<int>(i, position);
-                        list.push_back(Intersection(
+                        list.emplace_back(
                                 point,
                                 start_time + time_direction * (i - start),
                                 other.start_time + other.time_direction * (i - other.start)
-                        ));
+                        );
                     }
                 }
             }
@@ -94,7 +95,7 @@ namespace day3 {
             }
         }
 
-        std::vector<Intersection> get_intersections(const WireMess &other) const {
+        [[nodiscard]] std::vector<Intersection> get_intersections(const WireMess &other) const {
             std::vector<Intersection> intersections;
             for (auto segment : segments) {
                 for (auto other_segment : other.segments) {
@@ -105,27 +106,27 @@ namespace day3 {
         }
     };
 
-    int run() {
+    aoc::DayResult run(std::ostream &out) {
+        aoc::DayResult result;
         std::ifstream inputfile("input/day3.txt");
 
         if (!inputfile.is_open()) {
             std::cout << "Unable to open file";
-            return 1;
+            return aoc::DayResult(1);
         }
-
 
         std::string line;
         if (!getline(inputfile, line)) {
             std::cout << "Undable to read line 1";
             inputfile.close();
-            return 1;
+            return aoc::DayResult(1);
         }
         WireMess mess1(line);
 
         if (!getline(inputfile, line)) {
             std::cout << "Undable to read line 2";
             inputfile.close();
-            return 1;
+            return aoc::DayResult(1);
         }
         WireMess mess2(line);
 
@@ -141,15 +142,15 @@ namespace day3 {
                 if (distance < minDistance) // manual for sake of breakpointing
                     minDistance = distance;
 
-                if(intersection.time < shortest.time) {
+                if (intersection.time < shortest.time) {
                     shortest = intersection;
                 }
             }
         }
 
-        printf("Minimum distance (part one): %d\n", minDistance);
-        printf("Shortest time (part two): %d\n", shortest.time);
+        result.results.emplace_back("Part one", false, "Minimum distance", minDistance);
+        result.results.emplace_back("Part two", false, "Shortest time", shortest.time);
 
-        return 0;
+        return result;
     }
 }

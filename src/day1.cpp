@@ -4,58 +4,52 @@
 #include <vector>
 #include "days.h"
 
-namespace day1
-{
-    int run()
-    {
+namespace day1 {
+    aoc::DayResult run(std::ostream &out) {
+        aoc::DayResult result;
+
         std::ifstream inputfile("input/day1.txt");
 
-        if (!inputfile.is_open())
-        {
+        if (!inputfile.is_open()) {
             std::cout << "Unable to open file";
-            return 1;
+            return aoc::DayResult(1);
         }
 
         std::vector<int> masses;
 
         std::string line;
-        while (getline(inputfile, line))
-        {
+        while (getline(inputfile, line)) {
             masses.push_back(std::stoi(line));
         }
         inputfile.close();
 
-        printf("Received %d modules\n", (int)masses.size());
+        result.results.emplace_back("", true, "Module count", (int) masses.size());
 
         int fuel = 0;
-        for (int i = 0; i < masses.size(); i++)
-        {
-            int module_fuel = masses[i] / 3 - 2;
+        for (int &mass : masses) {
+            int module_fuel = mass / 3 - 2;
             fuel += module_fuel;
-            masses[i] = module_fuel;
+            mass = module_fuel;
         }
 
-        printf("Naive fuel requirement (part one): %d\n", fuel);
+        result.results.emplace_back("Part one", false, "Naive fuel requirement", fuel);
 
         bool mass_remaining = true;
-        while (mass_remaining)
-        {
+        while (mass_remaining) {
             mass_remaining = false;
 
-            for (int i = 0; i < masses.size(); i++)
-            {
-                int fuel_fuel = masses[i] / 3 - 2;
-                if (fuel_fuel > 0)
-                {
+            for (int &mass : masses) {
+                int fuel_fuel = mass / 3 - 2;
+                if (fuel_fuel > 0) {
                     mass_remaining = true;
                     fuel += fuel_fuel;
-                    masses[i] = fuel_fuel;
+                    mass = fuel_fuel;
                 }
             }
         }
 
-        printf("Real fuel requirement (part two): %d\n", fuel);
+        result.results.emplace_back("Part two", false, "Real fuel requirement", fuel);
 
-        return 0;
+        return result;
     }
 } // namespace day1

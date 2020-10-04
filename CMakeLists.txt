@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.17)
 project(AoC)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
+find_package(fmt REQUIRED)
 
 add_executable(AoC
         include/aoc_utils.h
@@ -12,4 +13,6 @@ add_executable(AoC
         src/day1.cpp
         src/day2.cpp
         src/day3.cpp
-        src/main.cpp)
+        src/main.cpp src/day4.cpp include/main.h)
+
+target_link_libraries(AoC PRIVATE fmt::fmt)
