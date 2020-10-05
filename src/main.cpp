@@ -100,7 +100,12 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream & )) {
 
             std::string centered = center(pad, pad_width, text.str(), width);
             if(!result.part_name.empty()) {
-                std::string part = std::string(" ") + ANSI_FG_LIGHT_YELLOW + result.part_name + ANSI_FG_GREEN + " ";
+                std::string part;
+                if(result.is_trivia) {
+                    part = std::string(" ") + ANSI_FG_LIGHT_GREEN + result.part_name + ANSI_FG_GREEN + " ";
+                } else {
+                    part = std::string(" ") + ANSI_FG_LIGHT_YELLOW + result.part_name + ANSI_FG_GREEN + " ";
+                }
                 size_t l = pad.size();
                 centered.replace(l, (result.part_name.size() + 2) * l, part);
             }

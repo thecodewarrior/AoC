@@ -59,6 +59,36 @@ namespace aoc {
                     pc += 2;
                 }
                     break;
+                case 5: {
+                    int test = get(op.pmode(0), memory[pc + 1]);
+                    int jump = get(op.pmode(1), memory[pc + 2]);
+                    pc += 3;
+                    if(test != 0)
+                        pc = jump;
+                }
+                    break;
+                case 6: {
+                    int test = get(op.pmode(0), memory[pc + 1]);
+                    int jump = get(op.pmode(1), memory[pc + 2]);
+                    pc += 3;
+                    if(test == 0)
+                        pc = jump;
+                }
+                    break;
+                case 7: {
+                    int a = get(op.pmode(0), memory[pc + 1]);
+                    int b = get(op.pmode(1), memory[pc + 2]);
+                    set(op.pmode(2), memory[pc + 3], a < b ? 1 : 0);
+                    pc += 4;
+                }
+                    break;
+                case 8: {
+                    int a = get(op.pmode(0), memory[pc + 1]);
+                    int b = get(op.pmode(1), memory[pc + 2]);
+                    set(op.pmode(2), memory[pc + 3], a == b ? 1 : 0);
+                    pc += 4;
+                }
+                    break;
                 case 99:
                     halted = true;
                     break;

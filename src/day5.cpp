@@ -27,11 +27,26 @@ namespace day5 {
                 ss << ",";
             ss << output[i];
         }
-        result.results.emplace_back("", true, "Output", ss.str());
+        result.results.emplace_back("", true, "AC Unit Output", ss.str());
         if(output.empty()) {
             result.results.emplace_back("Part one", false, "Diagnostic Code", "<!>");
         } else {
             result.results.emplace_back("Part one", false, "Diagnostic Code", output[output.size() - 1]);
+        }
+
+        computer = aoc::IntcodeComputer(&program);
+        output = computer.run({ 5 });
+        ss = std::stringstream();
+        for(size_t i = 0; i < output.size(); i++) {
+            if(i != 0)
+                ss << ",";
+            ss << output[i];
+        }
+        result.results.emplace_back("", true, "Thermal Radiator Output", ss.str());
+        if(output.empty()) {
+            result.results.emplace_back("Part two", false, "Diagnostic Code", "<!>");
+        } else {
+            result.results.emplace_back("Part two", false, "Diagnostic Code", output[output.size() - 1]);
         }
 
         return result;
