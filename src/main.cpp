@@ -9,25 +9,33 @@
 using namespace aoc;
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
-        std::cerr << "Program is not in the form: " << argv[0] << " <day>" << std::endl;
+    if (argc < 2) {
+        std::cerr << "Program is not in the form: " << argv[0] << " <day>..." << std::endl;
         return 1;
     }
 
-    int day_count = 4;
-    aoc::DayResult(*days[])(std::ostream & ) = {
+    std::vector<aoc::DayResult(*)(std::ostream &)> days{
             day1::run,
             day2::run,
             day3::run,
-            day4::run
+            day4::run,
+            day5::run
     };
 
-    int day = atoi(argv[1]);
-    if (day <= 0 || day > day_count) {
-        std::cerr << "Day " << day << " is not in range [1, " << day_count << "]" << std::endl;
-        return 1;
+    for (int i = 1; i < argc; i++) {
+        int day = std::stoi(argv[i]);
+        if (day <= 0 || day > days.size()) {
+            std::cerr << "Day " << day << " is not in range [1, " << days.size() << "]" << std::endl;
+        } else {
+            run_day(day, days[day - 1]);
+        }
     }
 
+    return 0;
+}
+
+
+int run_day(int day, aoc::DayResult(*function)(std::ostream & )) {
     size_t pad_width = 80;
     {
         size_t width = 0;
@@ -50,7 +58,7 @@ int main(int argc, char **argv) {
     PadBuf buf(std::cout, "\x1b[32m║\x1b[39m ");
     std::ostream out(&buf);
     out << std::endl;
-    aoc::DayResult day_result = (*days[day - 1])(out);
+    aoc::DayResult day_result = function(out);
     out.flush();
     if (day_result.return_code == 0) {
         for (const auto &result : day_result.results) {
@@ -69,13 +77,12 @@ int main(int argc, char **argv) {
             text << ANSI_FG_GREEN << ": ";
             width += 2;
 
-            std::string num = std::to_string(result.value);
             if(result.is_trivia) {
-                text << ANSI_FG_LIGHT_GREEN << num;
+                text << ANSI_FG_LIGHT_GREEN << result.value;
             } else {
-                text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << num << ANSI_BOLD_OFF;
+                text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.value << ANSI_BOLD_OFF;
             }
-            width += num.size();
+            width += result.value.size();
 
             text << ANSI_FG_GREEN << " ";
             width++;

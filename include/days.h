@@ -21,4 +21,8 @@ namespace day4 {
     aoc::DayResult run(std::ostream &out);
 }
 
+namespace day5 {
+    aoc::DayResult run(std::ostream &out);
+}
+
 #endif

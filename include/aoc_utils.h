@@ -58,8 +58,9 @@ namespace aoc {
         std::string part_name;
         bool is_trivia;
         std::string description;
-        int value;
+        std::string value;
 
+        ResultPart(std::string part_name, bool is_trivia, std::string description, std::string value);
         ResultPart(std::string part_name, bool is_trivia, std::string description, int value);
 
         ResultPart();
@@ -86,10 +87,25 @@ namespace aoc {
         std::vector<int> create_memory();
     };
 
+    struct IntcodeOperation {
+        int insn;
+        int opcode;
+
+        explicit IntcodeOperation(int insn) : insn(insn) {
+            opcode = insn % 100;
+        }
+
+        int pmode(int parameter) const {
+            int mode = insn / 100;
+            for(int i = 0; i < parameter; ++i) {
+                mode = mode / 10;
+            }
+            return mode % 10;
+        }
+    };
+
     class IntcodeComputer {
     private:
-        bool halted = false;
-        size_t pc = 0;
         std::vector<int> memory;
 
     public:
@@ -97,9 +113,11 @@ namespace aoc {
 
         int &operator[](size_t address);
 
-        void reset();
+        std::vector<int> run(const std::vector<int> &input);
 
-        void run();
+    private:
+        int get(int parameter_mode, int parameter);
+        void set(int parameter_mode, int parameter, int value);
     };
 
     template<typename T>

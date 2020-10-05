@@ -13,6 +13,6 @@ add_executable(AoC
         src/day1.cpp
         src/day2.cpp
         src/day3.cpp
-        src/main.cpp src/day4.cpp include/main.h)
+        src/main.cpp src/day4.cpp include/main.h src/day5.cpp)
 
 target_link_libraries(AoC PRIVATE fmt::fmt)

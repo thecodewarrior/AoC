@@ -36,7 +36,7 @@ namespace day2 {
         computer[1] = noun;
         computer[2] = verb;
 
-        computer.run();
+        computer.run(std::vector<int>());
 
         return computer[0];
     }

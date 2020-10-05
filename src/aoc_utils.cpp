@@ -26,38 +26,72 @@ namespace aoc {
         return memory[address];
     }
 
-    void IntcodeComputer::reset() {
-        halted = false;
-        pc = 0;
-    }
+    std::vector<int> IntcodeComputer::run(const std::vector<int> &input) {
+        bool halted = false;
+        size_t pc = 0;
+        size_t inpos = 0;
+        std::vector<int> output;
 
-    void IntcodeComputer::run() {
         while (!halted) {
-            int opcode = memory[pc];
-            switch (opcode) {
+            IntcodeOperation op(memory[pc]);
+            switch (op.opcode) {
                 case 1: {
-                    int a = memory[pc + 1];
-                    int b = memory[pc + 2];
-                    int out = memory[pc + 3];
-                    memory[out] = memory[a] + memory[b];
+                    int a = get(op.pmode(0), memory[pc + 1]);
+                    int b = get(op.pmode(1), memory[pc + 2]);
+                    set(op.pmode(2), memory[pc + 3], a + b);
                     pc += 4;
                 }
                     break;
                 case 2: {
-                    int a = memory[pc + 1];
-                    int b = memory[pc + 2];
-                    int out = memory[pc + 3];
-                    memory[out] = memory[a] * memory[b];
+                    int a = get(op.pmode(0), memory[pc + 1]);
+                    int b = get(op.pmode(1), memory[pc + 2]);
+                    set(op.pmode(2), memory[pc + 3], a * b);
                     pc += 4;
+                }
+                    break;
+                case 3: {
+                    set(op.pmode(0), memory[pc + 1], input[inpos++]);
+                    pc += 2;
+                }
+                    break;
+                case 4: {
+                    output.push_back(get(op.pmode(0), memory[pc + 1]));
+                    pc += 2;
                 }
                     break;
                 case 99:
                     halted = true;
                     break;
                 default:
-                    std::cout << "Unknown opcode " << opcode;
-                    return;
+                    std::cout << "Unknown opcode " << op.opcode << std::endl;
+                    halted = true;
             }
+        }
+        return output;
+    }
+
+    int IntcodeComputer::get(int parameter_mode, int parameter) {
+        switch (parameter_mode) {
+            case 0:
+                return memory[parameter];
+            case 1:
+                return parameter;
+            default:
+                std::cout << "Unknown parameter mode " << parameter_mode << std::endl;
+                return 0;
+        }
+    }
+
+    void IntcodeComputer::set(int parameter_mode, int parameter, int value) {
+        switch (parameter_mode) {
+            case 0:
+                memory[parameter] = value;
+                break;
+            case 1:
+                std::cout << "Can't write to immediate mode parameter" << std::endl;
+                break;
+            default:
+                std::cout << "Unknown parameter mode " << parameter_mode << std::endl;
         }
     }
 
@@ -65,8 +99,13 @@ namespace aoc {
 
     DayResult::DayResult(int return_code) : return_code(return_code) {}
 
+    ResultPart::ResultPart(std::string part_name, bool is_trivia, std::string description, std::string value) :
+            part_name(std::move(part_name)), is_trivia(is_trivia), description(std::move(description)), value(std::move(value)) {
+    }
+
     ResultPart::ResultPart(std::string part_name, bool is_trivia, std::string description, int value) :
-            part_name(std::move(part_name)), is_trivia(is_trivia), description(std::move(description)), value(value) {
+            part_name(std::move(part_name)), is_trivia(is_trivia), description(std::move(description)),
+            value(std::to_string(value)) {
     }
 
     ResultPart::ResultPart() = default;
