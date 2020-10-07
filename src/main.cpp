@@ -19,7 +19,8 @@ int main(int argc, char **argv) {
             day2::run,
             day3::run,
             day4::run,
-            day5::run
+            day5::run,
+            day6::run,
     };
 
     for (int i = 1; i < argc; i++) {
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
 }
 
 
-int run_day(int day, aoc::DayResult(*function)(std::ostream & )) {
+int run_day(int day, aoc::DayResult(*function)(std::ostream &)) {
     size_t pad_width = 80;
     {
         size_t width = 0;
@@ -68,7 +69,7 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream & )) {
             text << " ";
             width++;
 
-            if(result.is_trivia) {
+            if (result.is_trivia) {
                 text << ANSI_FG_GREEN << result.description;
             } else {
                 text << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << result.description << ANSI_BOLD_OFF;
@@ -77,18 +78,30 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream & )) {
             text << ANSI_FG_GREEN << ": ";
             width += 2;
 
-            if(result.is_trivia) {
-                text << ANSI_FG_LIGHT_GREEN << result.value;
+            if (result.value != result.correct_value) {
+                if (result.is_trivia) {
+                    text << ANSI_FG_RED << result.value << ANSI_FG_GREEN << " (" << ANSI_FG_LIGHT_GREEN
+                         << result.correct_value << ANSI_FG_GREEN << ")";
+                } else {
+                    text << ANSI_FG_RED << ANSI_BOLD_ON << result.value << ANSI_BOLD_OFF << ANSI_FG_GREEN << " ("
+                         << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.correct_value << ANSI_BOLD_OFF
+                         << ANSI_FG_GREEN << ")";
+                }
+                width += result.value.size() + result.correct_value.size() + 3;
             } else {
-                text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.value << ANSI_BOLD_OFF;
+                if (result.is_trivia) {
+                    text << ANSI_FG_LIGHT_GREEN << result.value;
+                } else {
+                    text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.value << ANSI_BOLD_OFF;
+                }
+                width += result.value.size();
             }
-            width += result.value.size();
 
             text << ANSI_FG_GREEN << " ";
             width++;
 
             std::string pad, lcap, rcap;
-            if(result.is_trivia) {
+            if (result.is_trivia) {
                 pad = " ";
                 lcap = "║";
                 rcap = "║";
@@ -99,9 +112,9 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream & )) {
             }
 
             std::string centered = center(pad, pad_width, text.str(), width);
-            if(!result.part_name.empty()) {
+            if (!result.part_name.empty()) {
                 std::string part;
-                if(result.is_trivia) {
+                if (result.is_trivia) {
                     part = std::string(" ") + ANSI_FG_LIGHT_GREEN + result.part_name + ANSI_FG_GREEN + " ";
                 } else {
                     part = std::string(" ") + ANSI_FG_LIGHT_YELLOW + result.part_name + ANSI_FG_GREEN + " ";

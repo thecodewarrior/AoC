@@ -29,9 +29,9 @@ namespace day5 {
         }
         result.results.emplace_back("", true, "AC Unit Output", ss.str());
         if(output.empty()) {
-            result.results.emplace_back("Part one", false, "Diagnostic Code", "<!>");
+            result.results.emplace_back("Part one", false, "Diagnostic Code", "<!>", "13210611");
         } else {
-            result.results.emplace_back("Part one", false, "Diagnostic Code", output[output.size() - 1]);
+            result.results.emplace_back("Part one", false, "Diagnostic Code", output[output.size() - 1], 13210611);
         }
 
         computer = aoc::IntcodeComputer(&program);
@@ -44,9 +44,9 @@ namespace day5 {
         }
         result.results.emplace_back("", true, "Thermal Radiator Output", ss.str());
         if(output.empty()) {
-            result.results.emplace_back("Part two", false, "Diagnostic Code", "<!>");
+            result.results.emplace_back("Part two", false, "Diagnostic Code", "<!>", "584126");
         } else {
-            result.results.emplace_back("Part two", false, "Diagnostic Code", output[output.size() - 1]);
+            result.results.emplace_back("Part two", false, "Diagnostic Code", output[output.size() - 1], 584126);
         }
 
         return result;

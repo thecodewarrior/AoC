@@ -59,9 +59,12 @@ namespace aoc {
         bool is_trivia;
         std::string description;
         std::string value;
+        std::string correct_value;
 
         ResultPart(std::string part_name, bool is_trivia, std::string description, std::string value);
+        ResultPart(std::string part_name, bool is_trivia, std::string description, std::string value, std::string correct_value);
         ResultPart(std::string part_name, bool is_trivia, std::string description, int value);
+        ResultPart(std::string part_name, bool is_trivia, std::string description, int value, int correct_value);
 
         ResultPart();
     };

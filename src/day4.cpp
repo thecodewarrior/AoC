@@ -47,8 +47,8 @@ namespace day4 {
         }
 
         result.results.emplace_back("", true, "Possible passwords", possible_passwords.size());
-        result.results.emplace_back("Part one", false, "Password count", part_one_passwords.size());
-        result.results.emplace_back("Part two", false, "Password count", part_two_passwords.size());
+        result.results.emplace_back("Part one", false, "Password count", part_one_passwords.size(), 1790);
+        result.results.emplace_back("Part two", false, "Password count", part_two_passwords.size(), 1206);
 
         return result;
     }

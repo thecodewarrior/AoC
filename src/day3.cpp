@@ -148,8 +148,8 @@ namespace day3 {
             }
         }
 
-        result.results.emplace_back("Part one", false, "Minimum distance", minDistance);
-        result.results.emplace_back("Part two", false, "Shortest time", shortest.time);
+        result.results.emplace_back("Part one", false, "Minimum distance", minDistance, 1337);
+        result.results.emplace_back("Part two", false, "Shortest time", shortest.time, 65356);
 
         return result;
     }

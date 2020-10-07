@@ -22,10 +22,10 @@ namespace day2 {
 
         result.results.emplace_back("", true, "Program length", program.program_length());
 
-        result.results.emplace_back("Part one", false, "1202 result", run_program(&program, 12, 2));
+        result.results.emplace_back("Part one", false, "1202 result", run_program(&program, 12, 2), 3790689);
 
         auto search_result = find_program(&program, 19690720);
-        result.results.emplace_back("Part two", false, "Search result", 100 * search_result.first + search_result.second);
+        result.results.emplace_back("Part two", false, "Search result", 100 * search_result.first + search_result.second, 6533);
 
         return result;
     }

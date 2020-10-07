@@ -32,7 +32,7 @@ namespace day1 {
             mass = module_fuel;
         }
 
-        result.results.emplace_back("Part one", false, "Naive fuel requirement", fuel);
+        result.results.emplace_back("Part one", false, "Naive fuel requirement", fuel, 3302760);
 
         bool mass_remaining = true;
         while (mass_remaining) {
@@ -48,7 +48,7 @@ namespace day1 {
             }
         }
 
-        result.results.emplace_back("Part two", false, "Real fuel requirement", fuel);
+        result.results.emplace_back("Part two", false, "Real fuel requirement", fuel, 4951265);
 
         return result;
     }
