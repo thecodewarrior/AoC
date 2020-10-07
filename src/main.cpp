@@ -9,11 +9,6 @@
 using namespace aoc;
 
 int main(int argc, char **argv) {
-    if (argc < 2) {
-        std::cerr << "Program is not in the form: " << argv[0] << " <day>..." << std::endl;
-        return 1;
-    }
-
     std::vector<aoc::DayResult(*)(std::ostream &)> days{
             day1::run,
             day2::run,
@@ -29,6 +24,11 @@ int main(int argc, char **argv) {
             std::cerr << "Day " << day << " is not in range [1, " << days.size() << "]" << std::endl;
         } else {
             run_day(day, days[day - 1]);
+        }
+    }
+    if(argc == 1) {
+        for (size_t day = 0; day < days.size(); day++) {
+            run_day(day + 1, days[day]);
         }
     }
 
