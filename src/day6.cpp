@@ -8,7 +8,7 @@
 #include "days.h"
 
 namespace day6 {
-    aoc::DayResult run(std::ostream &out) {
+    aoc::DayResult run() {
         aoc::DayResult result;
 
         std::ifstream inputfile("input/day6.txt");

@@ -9,7 +9,7 @@ namespace day2 {
 
     std::pair<int, int> find_program(aoc::IntcodeProgram *program, int target);
 
-    aoc::DayResult run(std::ostream &out) {
+    aoc::DayResult run() {
         aoc::DayResult result;
         std::ifstream inputfile("input/day2.txt");
 

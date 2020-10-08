@@ -4,7 +4,7 @@
 #include "days.h"
 
 namespace day4 {
-    aoc::DayResult run(std::ostream &out) {
+    aoc::DayResult run() {
         aoc::DayResult result;
         std::vector<std::string> possible_passwords;
 

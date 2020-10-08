@@ -5,19 +5,8 @@
 
 int main(int argc, char *argv[]);
 
-int run_day(int day, aoc::DayResult(*function)(std::ostream & ));
+int run_day(int day, aoc::DayResult(*function)());
 
-std::string center(std::string pad, size_t width, std::string text, size_t visual_width);
-
-class PadBuf : public std::stringbuf {
-    std::ostream &out;
-    std::string newline;
-    bool was_nl{};
-public:
-    PadBuf(std::ostream &out, std::string newline);
-
-protected:
-    int overflow(int_type __c) override;
-};
+std::string center(const std::string &pad, size_t width, std::string text, size_t visual_width);
 
 #endif //AOC_MAIN_H

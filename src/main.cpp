@@ -1,6 +1,5 @@
 #include "aoc_utils.h"
 #include "days.h"
-#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <utility>
@@ -9,7 +8,7 @@
 using namespace aoc;
 
 int main(int argc, char **argv) {
-    std::vector<aoc::DayResult(*)(std::ostream &)> days{
+    std::vector<aoc::DayResult(*)()> days{
             day1::run,
             day2::run,
             day3::run,
@@ -26,7 +25,7 @@ int main(int argc, char **argv) {
             run_day(day, days[day - 1]);
         }
     }
-    if(argc == 1) {
+    if (argc == 1) {
         for (size_t day = 0; day < days.size(); day++) {
             run_day(day + 1, days[day]);
         }
@@ -36,59 +35,67 @@ int main(int argc, char **argv) {
 }
 
 
-int run_day(int day, aoc::DayResult(*function)(std::ostream &)) {
+int run_day(int day, aoc::DayResult(*function)()) {
     size_t pad_width = 80;
+
+    // print the header
     {
+        // the text to be centered in the output
+        std::stringstream text;
+        // the width is tracked separately, because escape sequences don't contribute to visual length.
         size_t width = 0;
 
-        std::stringstream text;
-        text << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << " Advent of Code 2019" << ANSI_BOLD_OFF;
+        text << " " << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << "Advent of Code 2019" << ANSI_BOLD_OFF;
         width += 20;
         text << ANSI_FG_GREEN << ", day ";
         width += 6;
 
         std::string num = std::to_string(day);
-        text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << num << ANSI_BOLD_OFF;
+        text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << num << ANSI_BOLD_OFF << ANSI_FG_GREEN;
         width += num.size();
 
-        text << " " << ANSI_FG_GREEN;
+        text << " ";
         width++;
 
-        std::cout << ANSI_FG_GREEN << "╔" << center("═", pad_width, text.str(), width) << "╗" << ANSI_FG_DEFAULT;
+        std::cout << ANSI_FG_GREEN << "╔" << center("═", pad_width, text.str(), width) << "╗" << ANSI_FG_DEFAULT
+                  << "\n";
     }
-    PadBuf buf(std::cout, "\x1b[32m║\x1b[39m ");
-    std::ostream out(&buf);
-    out << std::endl;
-    aoc::DayResult day_result = function(out);
-    out.flush();
+
+    aoc::DayResult day_result = function();
+
     if (day_result.return_code == 0) {
+        // whether all of the results had correct values. Used to choose between "Success" and "Failure" at the bottom.
         bool was_success = true;
         for (const auto &result : day_result.results) {
+            // the text to be centered in the output
+            std::stringstream text;
+            // the width is tracked separately, because escape sequences don't contribute to visual length.
             size_t width = 0;
 
-            std::stringstream text;
             text << " ";
             width++;
 
             if (result.is_trivia) {
-                text << ANSI_FG_GREEN << result.description;
+                text << ANSI_FG_GREEN << result.description << ANSI_FG_DEFAULT;
             } else {
-                text << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << result.description << ANSI_BOLD_OFF;
+                text << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << result.description << ANSI_BOLD_OFF << ANSI_FG_DEFAULT;
             }
             width += result.description.size();
             text << ANSI_FG_GREEN << ": ";
             width += 2;
 
+            // the color for the padding lines. This is red if the result was incorrect
             std::string line_color;
             if (result.value != result.correct_value) {
+                // if the value was incorrect, print `actual_value (correct_value)`
                 line_color = ANSI_FG_RED;
                 was_success = false;
                 if (result.is_trivia) {
-                    text << ANSI_FG_RED << result.value << ANSI_FG_GREEN << " (" << ANSI_FG_LIGHT_GREEN
-                         << result.correct_value << ANSI_FG_GREEN << ")";
+                    text << ANSI_FG_RED << result.value << ANSI_FG_GREEN;
+                    text << " (" << ANSI_FG_LIGHT_GREEN << result.correct_value << ANSI_FG_GREEN << ")";
                 } else {
-                    text << ANSI_FG_RED << ANSI_BOLD_ON << result.value << ANSI_BOLD_OFF << ANSI_FG_GREEN << " ("
-                         << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.correct_value << ANSI_BOLD_OFF
+                    text << ANSI_FG_RED << ANSI_BOLD_ON << result.value << ANSI_BOLD_OFF << ANSI_FG_GREEN;
+                    text << " (" << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.correct_value << ANSI_BOLD_OFF
                          << ANSI_FG_GREEN << ")";
                 }
                 width += result.value.size() + result.correct_value.size() + 3;
@@ -105,6 +112,7 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream &)) {
             text << line_color << " ";
             width++;
 
+            // trivia has not padding line, which means the end caps don't connect, so use variables for these
             std::string pad, lcap, rcap;
             if (result.is_trivia) {
                 pad = " ";
@@ -117,14 +125,19 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream &)) {
             }
 
             std::string centered = center(pad, pad_width, text.str(), width);
+
+            // insert the part name (e.g. "Part one", "Part two", "whatever") into the line
             if (!result.part_name.empty()) {
+                // the actual, formatted text to insert.
                 std::string part;
                 if (result.is_trivia) {
                     part = std::string(" ") + ANSI_FG_LIGHT_GREEN + result.part_name + line_color + " ";
                 } else {
                     part = std::string(" ") + ANSI_FG_LIGHT_YELLOW + result.part_name + line_color + " ";
                 }
+                // the box-drawing characters are multi-byte, but spaces are not, so use this as the base unit.
                 size_t l = pad.size();
+                // "overwrite" a section of the padded string with the part name
                 centered.replace(l, (result.part_name.size() + 2) * l, part);
             }
 
@@ -135,7 +148,7 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream &)) {
         std::stringstream result_message;
         size_t result_length = 0;
 
-        if(was_success) {
+        if (was_success) {
             result_message << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << " Success " << ANSI_BOLD_OFF << ANSI_FG_GREEN;
             result_length += 9;
         } else {
@@ -164,7 +177,7 @@ int run_day(int day, aoc::DayResult(*function)(std::ostream &)) {
     return day_result.return_code;
 }
 
-std::string center(std::string pad, size_t width, std::string text, size_t visual_width) {
+std::string center(const std::string &pad, size_t width, std::string text, size_t visual_width) {
     if (visual_width > width)
         return text;
     size_t left_pad = (width - visual_width) / 2;
@@ -176,18 +189,4 @@ std::string center(std::string pad, size_t width, std::string text, size_t visua
     for (size_t i = 0; i < right_pad; i++)
         out << pad;
     return out.str();
-}
-
-PadBuf::PadBuf(std::ostream &out, std::string newline)
-        : basic_stringbuf(), out(out), newline(std::move(newline)), was_nl(false) {}
-
-int PadBuf::overflow(int __c) {
-    if (__c == EOF)
-        return EOF;
-    if (was_nl) {
-        out << newline;
-    }
-    was_nl = __c == '\n';
-    out.put(__c);
-    return __c;
 }

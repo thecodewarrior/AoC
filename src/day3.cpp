@@ -106,7 +106,7 @@ namespace day3 {
         }
     };
 
-    aoc::DayResult run(std::ostream &out) {
+    aoc::DayResult run() {
         aoc::DayResult result;
         std::ifstream inputfile("input/day3.txt");
 

@@ -5,55 +5,58 @@
 #include <vector>
 #include <map>
 
+#define ANSI_ESCAPE(str) "\x1b[" str
+
+#define ANSI_RESET ANSI_ESCAPE("0m")
+#define ANSI_BOLD_ON ANSI_ESCAPE("1m")
+#define ANSI_BOLD_OFF ANSI_ESCAPE("22m")
+#define ANSI_UNDERSCORE_ON "\x4b[4m"
+#define ANSI_UNDERSCORE_OFF ANSI_ESCAPE("24m")
+#define ANSI_BLINK_ON "\x4b[5m"
+#define ANSI_BLINK_OFF ANSI_ESCAPE("25m")
+
+#define ANSI_FG_DEFAULT ANSI_ESCAPE("39m")
+
+#define ANSI_FG_BLACK ANSI_ESCAPE("30m")
+#define ANSI_FG_RED ANSI_ESCAPE("31m")
+#define ANSI_FG_GREEN ANSI_ESCAPE("32m")
+#define ANSI_FG_YELLOW ANSI_ESCAPE("33m")
+#define ANSI_FG_BLUE ANSI_ESCAPE("34m")
+#define ANSI_FG_MAGENTA ANSI_ESCAPE("35m")
+#define ANSI_FG_CYAN ANSI_ESCAPE("36m")
+#define ANSI_FG_WHITE ANSI_ESCAPE("37m")
+
+#define ANSI_FG_LIGHT_BLACK ANSI_ESCAPE("90m")
+
+#define ANSI_FG_LIGHT_RED ANSI_ESCAPE("91m")
+#define ANSI_FG_LIGHT_GREEN ANSI_ESCAPE("92m")
+#define ANSI_FG_LIGHT_YELLOW ANSI_ESCAPE("93m")
+#define ANSI_FG_LIGHT_BLUE ANSI_ESCAPE("94m")
+#define ANSI_FG_LIGHT_MAGENTA ANSI_ESCAPE("95m")
+#define ANSI_FG_LIGHT_CYAN ANSI_ESCAPE("96m")
+#define ANSI_FG_LIGHT_WHITE ANSI_ESCAPE("97m")
+
+#define ANSI_BG_DEFAULT ANSI_ESCAPE("49m")
+
+#define ANSI_BG_BLACK ANSI_ESCAPE("40m")
+#define ANSI_BG_RED ANSI_ESCAPE("41m")
+#define ANSI_BG_GREEN ANSI_ESCAPE("42m")
+#define ANSI_BG_YELLOW ANSI_ESCAPE("43m")
+#define ANSI_BG_BLUE ANSI_ESCAPE("44m")
+#define ANSI_BG_MAGENTA ANSI_ESCAPE("45m")
+#define ANSI_BG_CYAN ANSI_ESCAPE("46m")
+#define ANSI_BG_WHITE ANSI_ESCAPE("47m")
+
+#define ANSI_BG_LIGHT_BLACK ANSI_ESCAPE("100m")
+#define ANSI_BG_LIGHT_RED ANSI_ESCAPE("101m")
+#define ANSI_BG_LIGHT_GREEN ANSI_ESCAPE("102m")
+#define ANSI_BG_LIGHT_YELLOW ANSI_ESCAPE("103m")
+#define ANSI_BG_LIGHT_BLUE ANSI_ESCAPE("104m")
+#define ANSI_BG_LIGHT_MAGENTA ANSI_ESCAPE("105m")
+#define ANSI_BG_LIGHT_CYAN ANSI_ESCAPE("106m")
+#define ANSI_BG_LIGHT_WHITE ANSI_ESCAPE("107m")
+
 namespace aoc {
-     #define ANSI_RESET "\x1b[0m"
-     #define ANSI_BOLD_ON "\x1b[1m"
-     #define ANSI_BOLD_OFF "\x1b[22m"
-     #define ANSI_UNDERSCORE_ON "\x4b[4m"
-     #define ANSI_UNDERSCORE_OFF "\x1b[24m"
-     #define ANSI_BLINK_ON "\x4b[5m"
-     #define ANSI_BLINK_OFF "\x1b[25m"
-
-     #define ANSI_FG_DEFAULT "\x1b[39m"
-
-     #define ANSI_FG_BLACK "\x1b[30m"
-     #define ANSI_FG_RED "\x1b[31m"
-     #define ANSI_FG_GREEN "\x1b[32m"
-     #define ANSI_FG_YELLOW "\x1b[33m"
-     #define ANSI_FG_BLUE "\x1b[34m"
-     #define ANSI_FG_MAGENTA "\x1b[35m"
-     #define ANSI_FG_CYAN "\x1b[36m"
-     #define ANSI_FG_WHITE "\x1b[37m"
-
-     #define ANSI_FG_LIGHT_BLACK "\x1b[90m"
-     #define ANSI_FG_LIGHT_RED "\x1b[91m"
-     #define ANSI_FG_LIGHT_GREEN "\x1b[92m"
-     #define ANSI_FG_LIGHT_YELLOW "\x1b[93m"
-     #define ANSI_FG_LIGHT_BLUE "\x1b[94m"
-     #define ANSI_FG_LIGHT_MAGENTA "\x1b[95m"
-     #define ANSI_FG_LIGHT_CYAN "\x1b[96m"
-     #define ANSI_FG_LIGHT_WHITE "\x1b[97m"
-
-     #define ANSI_BG_DEFAULT "\x1b[49m"
-
-     #define ANSI_BG_BLACK "\x1b[40m"
-     #define ANSI_BG_RED "\x1b[41m"
-     #define ANSI_BG_GREEN "\x1b[42m"
-     #define ANSI_BG_YELLOW "\x1b[43m"
-     #define ANSI_BG_BLUE "\x1b[44m"
-     #define ANSI_BG_MAGENTA "\x1b[45m"
-     #define ANSI_BG_CYAN "\x1b[46m"
-     #define ANSI_BG_WHITE "\x1b[47m"
-
-     #define ANSI_BG_LIGHT_BLACK "\x1b[100m"
-     #define ANSI_BG_LIGHT_RED "\x1b[101m"
-     #define ANSI_BG_LIGHT_GREEN "\x1b[102m"
-     #define ANSI_BG_LIGHT_YELLOW "\x1b[103m"
-     #define ANSI_BG_LIGHT_BLUE "\x1b[104m"
-     #define ANSI_BG_LIGHT_MAGENTA "\x1b[105m"
-     #define ANSI_BG_LIGHT_CYAN "\x1b[106m"
-     #define ANSI_BG_LIGHT_WHITE "\x1b[107m"
-
     struct ResultPart {
         std::string part_name;
         bool is_trivia;
@@ -62,8 +65,12 @@ namespace aoc {
         std::string correct_value;
 
         ResultPart(std::string part_name, bool is_trivia, std::string description, std::string value);
-        ResultPart(std::string part_name, bool is_trivia, std::string description, std::string value, std::string correct_value);
+
+        ResultPart(std::string part_name, bool is_trivia, std::string description, std::string value,
+                   std::string correct_value);
+
         ResultPart(std::string part_name, bool is_trivia, std::string description, int value);
+
         ResultPart(std::string part_name, bool is_trivia, std::string description, int value, int correct_value);
 
         ResultPart();
@@ -87,6 +94,7 @@ namespace aoc {
         explicit IntcodeProgram(std::istream *stream);
 
         size_t program_length();
+
         std::vector<int> create_memory();
     };
 
@@ -100,7 +108,7 @@ namespace aoc {
 
         int pmode(int parameter) const {
             int mode = insn / 100;
-            for(int i = 0; i < parameter; ++i) {
+            for (int i = 0; i < parameter; ++i) {
                 mode = mode / 10;
             }
             return mode % 10;
@@ -120,6 +128,7 @@ namespace aoc {
 
     private:
         int get(int parameter_mode, int parameter);
+
         void set(int parameter_mode, int parameter, int value);
     };
 
