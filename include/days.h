@@ -3,30 +3,31 @@
 
 #include <iostream>
 #include <fmt/core.h>
+#include "aoc_output.h"
 #include "aoc_utils.h"
 
 namespace day1 {
-    aoc::DayResult run();
+    void run(aoc::aoc_output &out);
 }
 
 namespace day2 {
-    aoc::DayResult run();
+    void run(aoc::aoc_output &out);
 }
 
 namespace day3 {
-    aoc::DayResult run();
+    void run(aoc::aoc_output &out);
 }
 
 namespace day4 {
-    aoc::DayResult run();
+    void run(aoc::aoc_output &out);
 }
 
 namespace day5 {
-    aoc::DayResult run();
+    void run(aoc::aoc_output &out);
 }
 
 namespace day6 {
-    aoc::DayResult run();
+    void run(aoc::aoc_output &out);
 }
 
 #endif

@@ -3,19 +3,15 @@
 #include <fstream>
 #include <vector>
 #include <map>
-#include <array>
-#include <string>
-#include <sstream>
 #include "days.h"
 
 namespace day6 {
-    aoc::DayResult run() {
-        aoc::DayResult result;
-
+    void run(aoc::aoc_output &out) {
         std::ifstream inputfile("input/day6.txt");
         if (!inputfile.is_open()) {
             std::cout << "Unable to open file";
-            return aoc::DayResult(1);
+            out.return_error("Unable to open input/day6.txt");
+            return;
         }
 
         // a map of orbiter -> parent
@@ -29,7 +25,7 @@ namespace day6 {
         }
         inputfile.close();
 
-        result.results.emplace_back("", true, "Planet count", planets.size());
+        out.print_trivia("Planet count", planets.size());
         {
             int count = 0;
             auto leaf = planets.begin();
@@ -41,7 +37,7 @@ namespace day6 {
                 }
                 leaf++;
             }
-            result.results.emplace_back("Part one", false, "Orbit count", count, 145250);
+            out.print_result("Part one", "Orbit count", count, 145250);
         }
         {
             std::vector<std::string> my_orbits;
@@ -66,9 +62,7 @@ namespace day6 {
                 santa_depth++;
             }
 
-            result.results.emplace_back("Part one", false, "Transfer count", transfer_count, 274);
+            out.print_result("Part one", "Transfer count", transfer_count, 274);
         }
-
-        return result;
     }
 }

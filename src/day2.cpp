@@ -10,26 +10,23 @@ namespace day2 {
 
     std::pair<int, int> find_program(aoc::IntcodeProgram *program, int target);
 
-    aoc::DayResult run() {
-        aoc::DayResult result;
+    void run(aoc::aoc_output &out) {
         std::ifstream inputfile("input/day2.txt");
 
         if (!inputfile.is_open()) {
             std::cout << "Unable to open file";
-            return aoc::DayResult(1);
+            out.return_error("Unable to open input/day2.txt");
+            return;
         }
         aoc::IntcodeProgram program(&inputfile);
         inputfile.close();
 
-        result.results.emplace_back("", true, "Program length", program.program_length());
+        out.print_trivia("Program length", program.program_length());
 
-        result.results.emplace_back("Part one", false, "1202 result", run_program(&program, 12, 2), 3790689);
+        out.print_result("Part one", "1202 result", run_program(&program, 12, 2), 3790689);
 
         auto search_result = find_program(&program, 19690720);
-        result.results.emplace_back("Part two", false, "Search result",
-                                    100 * search_result.first + search_result.second, 6533);
-
-        return result;
+        out.print_result("Part two", "Search result", 100 * search_result.first + search_result.second, 6533);
     }
 
     int run_program(aoc::IntcodeProgram *program, int noun, int verb) {

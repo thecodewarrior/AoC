@@ -2,9 +2,10 @@
 #define AOC_MAIN_H
 
 #include <string>
+#include "aoc_output.h"
 
 int main(int argc, char *argv[]);
 
-int run_day(int day, aoc::DayResult(*function)());
+void run_day(int day, void(*function)(aoc::aoc_output &));
 
 #endif //AOC_MAIN_H

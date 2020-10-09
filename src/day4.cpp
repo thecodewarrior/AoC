@@ -1,11 +1,9 @@
 #include <vector>
 #include <array>
-#include <string>
 #include "days.h"
 
 namespace day4 {
-    aoc::DayResult run() {
-        aoc::DayResult result;
+    void run(aoc::aoc_output &out) {
         std::vector<std::string> possible_passwords;
 
         // input start is 147981, but 147999 is the first with no decreasing digits
@@ -46,10 +44,8 @@ namespace day4 {
             }
         }
 
-        result.results.emplace_back("", true, "Possible passwords", possible_passwords.size());
-        result.results.emplace_back("Part one", false, "Password count", part_one_passwords.size(), 1790);
-        result.results.emplace_back("Part two", false, "Password count", part_two_passwords.size(), 1206);
-
-        return result;
+        out.print_trivia("Possible passwords", possible_passwords.size());
+        out.print_result("Part one", "Password count", part_one_passwords.size(), 1790);
+        out.print_result("Part two", "Password count", part_two_passwords.size(), 1206);
     }
 }

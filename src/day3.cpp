@@ -106,27 +106,29 @@ namespace day3 {
         }
     };
 
-    aoc::DayResult run() {
-        aoc::DayResult result;
+    void run(aoc::aoc_output &out) {
         std::ifstream inputfile("input/day3.txt");
 
         if (!inputfile.is_open()) {
             std::cout << "Unable to open file";
-            return aoc::DayResult(1);
+            out.return_error("Unable to open input/day3.txt");
+            return;
         }
 
         std::string line;
         if (!getline(inputfile, line)) {
             std::cout << "Undable to read line 1";
             inputfile.close();
-            return aoc::DayResult(1);
+            out.return_error("Unable to read line 1");
+            return;
         }
         WireMess mess1(line);
 
         if (!getline(inputfile, line)) {
             std::cout << "Undable to read line 2";
             inputfile.close();
-            return aoc::DayResult(1);
+            out.return_error("Unable to read line 2");
+            return;
         }
         WireMess mess2(line);
 
@@ -148,9 +150,7 @@ namespace day3 {
             }
         }
 
-        result.results.emplace_back("Part one", false, "Minimum distance", minDistance, 1337);
-        result.results.emplace_back("Part two", false, "Shortest time", shortest.time, 65356);
-
-        return result;
+        out.print_result("Part one", "Minimum distance", minDistance, 1337);
+        out.print_result("Part two", "Shortest time", shortest.time, 65356);
     }
 }

@@ -5,14 +5,12 @@
 #include "days.h"
 
 namespace day1 {
-    aoc::DayResult run() {
-        aoc::DayResult result;
-
+    void run(aoc::aoc_output &out) {
         std::ifstream inputfile("input/day1.txt");
 
         if (!inputfile.is_open()) {
-            std::cout << "Unable to open file";
-            return aoc::DayResult(1);
+            out.return_error("Unable to open input/day1.txt");
+            return;
         }
 
         std::vector<int> masses;
@@ -23,7 +21,7 @@ namespace day1 {
         }
         inputfile.close();
 
-        result.results.emplace_back("", true, "Module count", (int) masses.size());
+        out.print_trivia("Module count", (int) masses.size());
 
         int fuel = 0;
         for (int &mass : masses) {
@@ -32,7 +30,7 @@ namespace day1 {
             mass = module_fuel;
         }
 
-        result.results.emplace_back("Part one", false, "Naive fuel requirement", fuel, 3302760);
+        out.print_result("Part one", "Naive fuel requirement", fuel, 3302760);
 
         bool mass_remaining = true;
         while (mass_remaining) {
@@ -48,8 +46,6 @@ namespace day1 {
             }
         }
 
-        result.results.emplace_back("Part two", false, "Real fuel requirement", fuel, 4951265);
-
-        return result;
+        out.print_result("Part two", "Real fuel requirement", fuel, 4951265);
     }
 } // namespace day1

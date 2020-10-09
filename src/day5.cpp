@@ -7,13 +7,12 @@
 #include "intcode.h"
 
 namespace day5 {
-    aoc::DayResult run() {
-        aoc::DayResult result;
-
+    void run(aoc::aoc_output &out) {
         std::ifstream inputfile("input/day5.txt");
         if (!inputfile.is_open()) {
             std::cout << "Unable to open file";
-            return aoc::DayResult(1);
+            out.return_error("Unable to open input/day5.txt");
+            return;
         }
         aoc::IntcodeProgram program(&inputfile);
         inputfile.close();
@@ -27,11 +26,11 @@ namespace day5 {
                 ss << ",";
             ss << output[i];
         }
-        result.results.emplace_back("", true, "AC Unit Output", ss.str());
+        out.print_trivia("AC Unit Output", ss.str());
         if (output.empty()) {
-            result.results.emplace_back("Part one", false, "Diagnostic Code", "<!>", "13210611");
+            out.print_result("Part one", "Diagnostic Code", "<!>", "13210611");
         } else {
-            result.results.emplace_back("Part one", false, "Diagnostic Code", output[output.size() - 1], 13210611);
+            out.print_result("Part one", "Diagnostic Code", output[output.size() - 1], 13210611);
         }
 
         computer = aoc::IntcodeComputer(&program);
@@ -42,13 +41,11 @@ namespace day5 {
                 ss << ",";
             ss << output[i];
         }
-        result.results.emplace_back("", true, "Thermal Radiator Output", ss.str());
+        out.print_trivia("Thermal Radiator Output", ss.str());
         if (output.empty()) {
-            result.results.emplace_back("Part two", false, "Diagnostic Code", "<!>", "584126");
+            out.print_result("Part two", "Diagnostic Code", "<!>", "584126");
         } else {
-            result.results.emplace_back("Part two", false, "Diagnostic Code", output[output.size() - 1], 584126);
+            out.print_result("Part two", "Diagnostic Code", output[output.size() - 1], 584126);
         }
-
-        return result;
     }
 }
