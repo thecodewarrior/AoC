@@ -1,11 +1,10 @@
 #include "aoc_utils.h"
+#include "aoc_output.h"
 #include "days.h"
 #include <iostream>
 #include <sstream>
 #include <utility>
 #include <main.h>
-
-using namespace aoc;
 
 int main(int argc, char **argv) {
     std::vector<aoc::DayResult(*)()> days{
@@ -40,24 +39,14 @@ int run_day(int day, aoc::DayResult(*function)()) {
 
     // print the header
     {
-        // the text to be centered in the output
         std::stringstream text;
-        // the width is tracked separately, because escape sequences don't contribute to visual length.
-        size_t width = 0;
-
         text << " " << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << "Advent of Code 2019" << ANSI_BOLD_OFF;
-        width += 20;
         text << ANSI_FG_GREEN << ", day ";
-        width += 6;
-
-        std::string num = std::to_string(day);
-        text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << num << ANSI_BOLD_OFF << ANSI_FG_GREEN;
-        width += num.size();
-
+        text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << day << ANSI_BOLD_OFF << ANSI_FG_GREEN;
         text << " ";
-        width++;
 
-        std::cout << ANSI_FG_GREEN << "╔" << center("═", pad_width, text.str(), width) << "╗" << ANSI_FG_DEFAULT
+        std::cout << ANSI_FG_GREEN << "╔" << aoc::center("═", pad_width, text.str(), aoc::text_width(text.str())) << "╗"
+                  << ANSI_FG_DEFAULT
                   << "\n";
     }
 
@@ -67,22 +56,14 @@ int run_day(int day, aoc::DayResult(*function)()) {
         // whether all of the results had correct values. Used to choose between "Success" and "Failure" at the bottom.
         bool was_success = true;
         for (const auto &result : day_result.results) {
-            // the text to be centered in the output
             std::stringstream text;
-            // the width is tracked separately, because escape sequences don't contribute to visual length.
-            size_t width = 0;
-
             text << " ";
-            width++;
-
             if (result.is_trivia) {
                 text << ANSI_FG_GREEN << result.description << ANSI_FG_DEFAULT;
             } else {
                 text << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << result.description << ANSI_BOLD_OFF << ANSI_FG_DEFAULT;
             }
-            width += result.description.size();
             text << ANSI_FG_GREEN << ": ";
-            width += 2;
 
             // the color for the padding lines. This is red if the result was incorrect
             std::string line_color;
@@ -98,7 +79,6 @@ int run_day(int day, aoc::DayResult(*function)()) {
                     text << " (" << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.correct_value << ANSI_BOLD_OFF
                          << ANSI_FG_GREEN << ")";
                 }
-                width += result.value.size() + result.correct_value.size() + 3;
             } else {
                 line_color = ANSI_FG_GREEN;
                 if (result.is_trivia) {
@@ -106,11 +86,9 @@ int run_day(int day, aoc::DayResult(*function)()) {
                 } else {
                     text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << result.value << ANSI_BOLD_OFF;
                 }
-                width += result.value.size();
             }
 
             text << line_color << " ";
-            width++;
 
             // trivia has not padding line, which means the end caps don't connect, so use variables for these
             std::string pad, lcap, rcap;
@@ -124,7 +102,7 @@ int run_day(int day, aoc::DayResult(*function)()) {
                 rcap = "╢";
             }
 
-            std::string centered = center(pad, pad_width, text.str(), width);
+            std::string centered = aoc::center(pad, pad_width, text.str(), aoc::text_width(text.str()));
 
             // insert the part name (e.g. "Part one", "Part two", "whatever") into the line
             if (!result.part_name.empty()) {
@@ -146,32 +124,22 @@ int run_day(int day, aoc::DayResult(*function)()) {
         }
 
         std::stringstream result_message;
-        size_t result_length = 0;
 
         if (was_success) {
             result_message << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << " Success " << ANSI_BOLD_OFF << ANSI_FG_GREEN;
-            result_length += 9;
         } else {
             result_message << ANSI_FG_RED << ANSI_BOLD_ON << " Failure " << ANSI_BOLD_OFF << ANSI_FG_GREEN;
-            result_length += 9;
         }
-        std::cout << ANSI_FG_GREEN << "╚" << center("═", pad_width, result_message.str(), result_length) << "╝"
+        std::cout << ANSI_FG_GREEN << "╚"
+                  << aoc::center("═", pad_width, result_message.str(), aoc::text_width(result_message.str())) << "╝"
                   << ANSI_FG_DEFAULT << std::endl;
     } else {
-        size_t width = 0;
         std::stringstream text;
-        text << ANSI_FG_RED << " Error: ";
-        width += 8;
+        text << ANSI_FG_RED << " Error: " << ANSI_BOLD_ON << day_result.return_code << ANSI_BOLD_OFF << " "
+             << ANSI_FG_GREEN;
 
-        std::string num = std::to_string(day_result.return_code);
-        text << ANSI_BOLD_ON << num << ANSI_BOLD_OFF;
-        width += num.size();
-
-        text << " " << ANSI_FG_GREEN;
-        width++;
-
-        std::cout << ANSI_FG_GREEN << "╚" << center("═", pad_width, text.str(), width) << "╝" << ANSI_FG_DEFAULT
-                  << std::endl;
+        std::cout << ANSI_FG_GREEN << "╚" << aoc::center("═", pad_width, text.str(), aoc::text_width(text.str())) << "╝"
+                  << ANSI_FG_DEFAULT << std::endl;
     }
 
     return day_result.return_code;

@@ -2,9 +2,9 @@
 #include <fstream>
 #include <vector>
 #include <array>
-#include <string>
 #include <sstream>
 #include "days.h"
+#include "intcode.h"
 
 namespace day5 {
     aoc::DayResult run() {
@@ -19,31 +19,31 @@ namespace day5 {
         inputfile.close();
 
         aoc::IntcodeComputer computer(&program);
-        std::vector<int> output = computer.run({ 1 });
+        std::vector<int> output = computer.run({1});
 
         std::stringstream ss;
-        for(size_t i = 0; i < output.size(); i++) {
-            if(i != 0)
+        for (size_t i = 0; i < output.size(); i++) {
+            if (i != 0)
                 ss << ",";
             ss << output[i];
         }
         result.results.emplace_back("", true, "AC Unit Output", ss.str());
-        if(output.empty()) {
+        if (output.empty()) {
             result.results.emplace_back("Part one", false, "Diagnostic Code", "<!>", "13210611");
         } else {
             result.results.emplace_back("Part one", false, "Diagnostic Code", output[output.size() - 1], 13210611);
         }
 
         computer = aoc::IntcodeComputer(&program);
-        output = computer.run({ 5 });
+        output = computer.run({5});
         ss = std::stringstream();
-        for(size_t i = 0; i < output.size(); i++) {
-            if(i != 0)
+        for (size_t i = 0; i < output.size(); i++) {
+            if (i != 0)
                 ss << ",";
             ss << output[i];
         }
         result.results.emplace_back("", true, "Thermal Radiator Output", ss.str());
-        if(output.empty()) {
+        if (output.empty()) {
             result.results.emplace_back("Part two", false, "Diagnostic Code", "<!>", "584126");
         } else {
             result.results.emplace_back("Part two", false, "Diagnostic Code", output[output.size() - 1], 584126);

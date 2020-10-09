@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
 
 #define ANSI_ESCAPE(str) "\x1b[" str
 
@@ -86,51 +85,6 @@ namespace aoc {
     };
 
     // first used in day 2
-    struct IntcodeProgram {
-    private:
-        std::vector<int> program;
-
-    public:
-        explicit IntcodeProgram(std::istream *stream);
-
-        size_t program_length();
-
-        std::vector<int> create_memory();
-    };
-
-    struct IntcodeOperation {
-        int insn;
-        int opcode;
-
-        explicit IntcodeOperation(int insn) : insn(insn) {
-            opcode = insn % 100;
-        }
-
-        int pmode(int parameter) const {
-            int mode = insn / 100;
-            for (int i = 0; i < parameter; ++i) {
-                mode = mode / 10;
-            }
-            return mode % 10;
-        }
-    };
-
-    class IntcodeComputer {
-    private:
-        std::vector<int> memory;
-
-    public:
-        explicit IntcodeComputer(IntcodeProgram *program);
-
-        int &operator[](size_t address);
-
-        std::vector<int> run(const std::vector<int> &input);
-
-    private:
-        int get(int parameter_mode, int parameter);
-
-        void set(int parameter_mode, int parameter, int value);
-    };
 
     template<typename T>
     struct point {

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "days.h"
+#include "intcode.h"
 
 namespace day2 {
     int run_program(aoc::IntcodeProgram *program, int noun, int verb);
@@ -25,7 +26,8 @@ namespace day2 {
         result.results.emplace_back("Part one", false, "1202 result", run_program(&program, 12, 2), 3790689);
 
         auto search_result = find_program(&program, 19690720);
-        result.results.emplace_back("Part two", false, "Search result", 100 * search_result.first + search_result.second, 6533);
+        result.results.emplace_back("Part two", false, "Search result",
+                                    100 * search_result.first + search_result.second, 6533);
 
         return result;
     }
