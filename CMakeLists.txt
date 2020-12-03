@@ -3,16 +3,17 @@ project(AoC)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(include)
 find_package(fmt REQUIRED)
 
-add_executable(AoC
-        include/aoc_utils.h
-        include/days.h
-        src/aoc_utils.cpp
-        src/day1.cpp
-        src/day2.cpp
-        src/day3.cpp
-        src/main.cpp src/day4.cpp include/main.h src/day5.cpp src/day6.cpp src/intcode.cpp include/intcode.h src/aoc_output.cpp include/aoc_output.h)
+find_package(Boost 1.73.0 REQUIRED COMPONENTS filesystem)
+include_directories(${Boost_INCLUDE_DIRS})
 
-target_link_libraries(AoC PRIVATE fmt::fmt)
+include_directories(include)
+add_executable(AoC
+        include/days.h
+        src/Day1.cpp
+        src/Day2.cpp
+        src/Day3.cpp
+        src/main.cpp src/Day4.cpp include/main.h src/Day5.cpp src/Day6.cpp src/intcode.cpp include/intcode.h src/aoc/Printer.cpp include/aoc/Printer.h src/aoc/Day.cpp include/aoc/Day.h include/utils.h src/utils.cpp include/Day1.h include/Day2.h include/Day3.h include/Day4.h include/Day6.h include/Day5.h)
+
+target_link_libraries(AoC PRIVATE fmt::fmt ${Boost_LIBRARIES})
