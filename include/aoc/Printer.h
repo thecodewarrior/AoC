@@ -84,27 +84,26 @@ public:
 
     void print_line(const std::string &text) const;
 
-    void print_trivia(const std::string &description, const std::string &value) const;
-
-    void print_result(const std::string &part_name, const std::string &description, const std::string &value,
-                      const std::string &correct_value);
-
-    void print_result(const std::string &part_name, const std::string &description, const std::string &value) {
-        print_result(part_name, description, value, value);
-    }
-
     template <typename T> void print_trivia(const std::string &description, const T &value) const {
-        print_trivia(description, to_string(value));
+        print_trivia_impl(description, to_string(value));
     }
 
     template <typename T>
-    void print_result(const std::string &part_name, const std::string &description, const T &value, const T &correct_value) {
-        print_result(part_name, description, to_string(value), to_string(correct_value));
+    void print_result(const std::string &part_name, const std::string &description, const T &value,
+                      const T &correct_value) {
+        print_result_impl(part_name, description, to_string(value), to_string(correct_value));
     }
 
-    template <typename T> void print_result(const std::string &part_name, const std::string &description, const T &value) {
-        print_result(part_name, description, fmt::format(FMT_STRING("{}"), value));
+    template <typename T>
+    void print_result(const std::string &part_name, const std::string &description, const T &value) {
+        std::string value_string = to_string(value);
+        print_result_impl(part_name, description, value_string, value_string);
     }
+
+private:
+    void print_trivia_impl(const std::string &description, const std::string &value) const;
+    void print_result_impl(const std::string &part_name, const std::string &description, const std::string &value,
+                           const std::string &correct_value);
 };
 
 std::string center(const std::string &pad, size_t width, const std::string &text);

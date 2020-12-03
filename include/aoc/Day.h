@@ -51,19 +51,6 @@ protected:
 
     void print_line(const std::string &text) const { printer.print_line(text); }
 
-    void print_trivia(const std::string &description, const std::string &value) const {
-        printer.print_trivia(description, value);
-    }
-
-    void print_result(const std::string &part_name, const std::string &description, const std::string &value,
-                      const std::string &correct_value) {
-        printer.print_result(part_name, description, value, correct_value);
-    }
-
-    void print_result(const std::string &part_name, const std::string &description, const std::string &value) {
-        printer.print_result(part_name, description, value);
-    }
-
     template <typename T> void print_trivia(const std::string &description, const T &value) const {
         printer.print_trivia(description, value);
     }

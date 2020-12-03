@@ -60,9 +60,7 @@ int text_width(const std::string &text) {
     return codepoints - total_sequence_length;
 }
 
-void Printer::reset_day_state() {
-    this->had_failure = false;
-}
+void Printer::reset_day_state() { this->had_failure = false; }
 
 void Printer::print_header(const std::string &day_name) const {
     std::stringstream text;
@@ -92,14 +90,14 @@ void Printer::print_line(const std::string &text) const {
               << ANSI_FG_GREEN << "║" << ANSI_FG_DEFAULT << "\n";
 }
 
-void Printer::print_trivia(const std::string &description, const std::string &value) const {
+void Printer::print_trivia_impl(const std::string &description, const std::string &value) const {
     std::stringstream text;
     text << ANSI_FG_GREEN << description << ANSI_FG_GREEN << ": " << ANSI_FG_LIGHT_GREEN << value;
     print_line(text.str());
 }
 
-void Printer::print_result(const std::string &part_name, const std::string &description, const std::string &value,
-                           const std::string &correct_value) {
+void Printer::print_result_impl(const std::string &part_name, const std::string &description, const std::string &value,
+                                const std::string &correct_value) {
     std::stringstream text;
     text << " " << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << description << ANSI_BOLD_OFF << ANSI_FG_GREEN << ": ";
 
