@@ -88,9 +88,9 @@ public:
         print_trivia_impl(description, to_string(value));
     }
 
-    template <typename T>
-    void print_result(const std::string &part_name, const std::string &description, const T &value,
-                      const T &correct_value) {
+    template <typename T1, typename T2>
+    void print_result(const std::string &part_name, const std::string &description, const T1 &value,
+                      const T2 &correct_value) {
         print_result_impl(part_name, description, to_string(value), to_string(correct_value));
     }
 

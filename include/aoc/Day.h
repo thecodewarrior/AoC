@@ -55,9 +55,9 @@ protected:
         printer.print_trivia(description, value);
     }
 
-    template <typename T>
-    void print_result(const std::string &part_name, const std::string &description, const T &value,
-                      const T &correct_value) {
+    template <typename T1, typename T2>
+    void print_result(const std::string &part_name, const std::string &description, const T1 &value,
+                      const T2 &correct_value) {
         printer.print_result(part_name, description, value, correct_value);
     }
 

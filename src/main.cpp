@@ -7,7 +7,8 @@
 int main(int argc, char **argv) {
     aoc::DayContext ctx{"2020", "", "input"};
     std::vector<aoc::Day *> days{
-        new Day1(ctx.day("1"))
+        new Day1(ctx.day("1")),
+        new Day2(ctx.day("2")),
     };
 
     for (int i = 1; i < argc; i++) {
