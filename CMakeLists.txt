@@ -12,6 +12,6 @@ include_directories(include)
 add_executable(AoC
         include/days.h
         src/Day1.cpp
-        src/main.cpp include/main.h src/aoc/Printer.cpp include/aoc/Printer.h src/aoc/Day.cpp include/aoc/Day.h include/utils.h src/utils.cpp include/Day1.h src/Day2.cpp include/Day2.h src/Day3.cpp include/Day3.h)
+        src/main.cpp include/main.h src/aoc/Printer.cpp include/aoc/Printer.h src/aoc/Day.cpp include/aoc/Day.h include/utils.h src/utils.cpp include/Day1.h src/Day2.cpp include/Day2.h src/Day3.cpp include/Day3.h src/Day4.cpp include/Day4.h)
 
 target_link_libraries(AoC PRIVATE fmt::fmt ${Boost_LIBRARIES})

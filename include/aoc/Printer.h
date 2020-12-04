@@ -74,7 +74,7 @@ public:
 
     /**
      * Rests the per-day state (e.g. errors) so this printer can be reused for another day. This is automatically
-     * called at the end of the Day::run function.
+     * called at the end of the Day::run_day function.
      */
     void reset_day_state();
 

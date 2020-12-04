@@ -41,13 +41,15 @@ public:
     /**
      * Run this day and display the output with the given printer
      */
-    void run();
+    void run_day();
 
 protected:
     /**
-     * Run the actual day. The #run function prints the header, calls this, then prints the footer.
+     * Run the actual day. The #run_day function prints the header, calls this, then prints the footer.
      */
-    virtual void run_day() {};
+    virtual void run() {};
+
+    std::vector<std::string> read_input_lines();
 
     void print_line(const std::string &text) const { printer.print_line(text); }
 

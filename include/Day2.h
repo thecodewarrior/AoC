@@ -9,7 +9,7 @@ public:
     explicit Day2(const aoc::DayContext &ctx) : Day(ctx) {}
 
 protected:
-    void run_day() override;
+    void run() override;
 
     struct PasswordEntry {
         int min_occurrences;

@@ -1,19 +1,11 @@
 #include "Day1.h"
 #include <set>
 
-void Day1::run_day() {
-    fs::ifstream inputfile(input / "day1.txt");
-    if (!inputfile.is_open()) {
-        AOC_ABORT("Unable to open day1.txt");
-    }
-
+void Day1::run() {
     std::set<int> entries;
-
-    std::string line;
-    while (getline(inputfile, line)) {
+    for(auto &line : read_input_lines()) {
         entries.insert(std::stoi(line));
     }
-    inputfile.close();
 
     print_trivia("Entry count", entries.size());
 

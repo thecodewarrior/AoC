@@ -1,18 +1,10 @@
 #include "Day3.h"
 
-void Day3::run_day() {
-    fs::ifstream inputfile(input / "day3.txt");
-    if (!inputfile.is_open()) {
-        AOC_ABORT("Unable to open day3.txt");
-    }
-
+void Day3::run() {
     TreeMap map;
-
-    std::string line;
-    while (getline(inputfile, line)) {
+    for(auto &line : read_input_lines()) {
         map.add_line(line);
     }
-    inputfile.close();
 
     print_trivia("Map size", fmt::format("({}, {})", map.width, map.height));
     int total_trees = 0;

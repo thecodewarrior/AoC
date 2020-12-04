@@ -9,7 +9,7 @@ public:
     explicit Day1(const aoc::DayContext &ctx) : Day(ctx) {}
 
 protected:
-    void run_day() override;
+    void run() override;
 };
 
 #endif // AOC_DAY1_H

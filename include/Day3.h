@@ -10,7 +10,7 @@ public:
     explicit Day3(const aoc::DayContext &ctx) : Day(ctx) {}
 
 protected:
-    void run_day() override;
+    void run() override;
 
     struct TreeMap {
         std::vector<bool> map;

@@ -10,6 +10,7 @@ int main(int argc, char **argv) {
         new Day1(ctx.day("1")),
         new Day2(ctx.day("2")),
         new Day3(ctx.day("3")),
+        new Day4(ctx.day("4")),
     };
 
     for (int i = 1; i < argc; i++) {
@@ -17,12 +18,12 @@ int main(int argc, char **argv) {
         if (day < 1 || day > days.size()) {
             std::cerr << "Day " << day << " is not in range [1, " << days.size() << "]" << std::endl;
         } else {
-            days[day - 1]->run();
+            days[day - 1]->run_day();
         }
     }
     if (argc == 1) {
         for (auto &day : days) {
-            day->run();
+            day->run_day();
         }
     }
 

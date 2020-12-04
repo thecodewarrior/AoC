@@ -1,17 +1,11 @@
 #include "Day2.h"
 #include <regex>
 
-void Day2::run_day() {
-    fs::ifstream inputfile(input / "day2.txt");
-    if (!inputfile.is_open()) {
-        AOC_ABORT("Unable to open day2.txt");
-    }
-
+void Day2::run() {
     std::vector<PasswordEntry> passwords;
 
     std::regex parse_pattern(R"(^(\d+)-(\d+) (.): (.*)$)");
-    std::string line;
-    while (getline(inputfile, line)) {
+    for(auto &line : read_input_lines()) {
         std::smatch match;
         if (std::regex_match(line, match, parse_pattern)) {
             passwords.push_back(
@@ -20,7 +14,6 @@ void Day2::run_day() {
             AOC_ABORT(fmt::format("Invalid line `{}`", line))
         }
     }
-    inputfile.close();
 
     print_trivia("Password count", passwords.size());
 
