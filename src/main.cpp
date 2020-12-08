@@ -1,4 +1,9 @@
-#include "days.h"
+//#include "days.h"
+#include "Day1.h"
+#include "Day2.h"
+#include "Day3.h"
+#include "Day4.h"
+#include "Day5.h"
 #include <aoc/Day.h>
 #include <aoc/Printer.h>
 #include <iostream>
@@ -11,6 +16,7 @@ int main(int argc, char **argv) {
         new Day2(ctx.day("2")),
         new Day3(ctx.day("3")),
         new Day4(ctx.day("4")),
+        new Day5(ctx.day("5")),
     };
 
     for (int i = 1; i < argc; i++) {

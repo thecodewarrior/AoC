@@ -47,7 +47,7 @@ protected:
     /**
      * Run the actual day. The #run_day function prints the header, calls this, then prints the footer.
      */
-    virtual void run() {};
+    virtual void run() = 0;
 
     std::vector<std::string> read_input_lines();
 
