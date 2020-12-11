@@ -4,6 +4,7 @@
 #include "Day3.h"
 #include "Day4.h"
 #include "Day5.h"
+#include "Day6.h"
 #include <aoc/Day.h>
 #include <aoc/Printer.h>
 #include <iostream>
@@ -13,7 +14,7 @@ int main(int argc, char **argv) {
     aoc::DayContext ctx{"2020", "", "input"};
     std::vector<aoc::Day *> days{
         new Day1(ctx.day("1")), new Day2(ctx.day("2")), new Day3(ctx.day("3")),
-        new Day4(ctx.day("4")), new Day5(ctx.day("5")),
+        new Day4(ctx.day("4")), new Day5(ctx.day("5")), new Day6(ctx.day("6"))
     };
 
     for (int i = 1; i < argc; i++) {
