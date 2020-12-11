@@ -4,7 +4,7 @@ void Day5::run() {
     constexpr int rows = 128;
     constexpr int cols = 8;
 
-    print_trivia("Seat count", fmt::format("{} x {} = {}", rows, cols, rows * cols));
+    print_trivia_fmt("Seat count", {rows, " x ", cols, " = ", rows * cols});
 
     bool seats[rows * cols] = {};
     int boarding_passes = 0;
@@ -82,10 +82,10 @@ void Day5::run() {
             }
         }
 
-        print_trivia("Leading empty seats",
-                     fmt::format("{} = {} rows + {}", leading_empty, leading_empty / cols, leading_empty % cols));
+        print_trivia_fmt("Leading empty seats",
+                         {leading_empty, " = ", leading_empty / cols, " rows + ", leading_empty % cols});
         print_result("Part one", "My ID", my_id);
-        print_trivia("Trailing empty seats",
-                     fmt::format("{} = {} rows + {}", trailing_empty, trailing_empty / cols, trailing_empty % cols));
+        print_trivia_fmt("Trailing empty seats",
+                     {trailing_empty, " = ", trailing_empty / cols, " rows + ", trailing_empty % cols});
     }
 }

@@ -23,7 +23,7 @@ void Day1::run() {
         if(entry1 == -1 && entry2 == -1) {
             print_result("Part one", "2020 sum product", "<!>");
         } else {
-            print_trivia("2020 sum entries", fmt::format("{} + {}", entry1, entry2));
+            print_trivia_fmt("2020 sum entries", {entry1, " + ", entry2});
             print_result("Part one", "2020 sum product", entry1 * entry2, 840324);
         }
     }
@@ -57,7 +57,7 @@ void Day1::run() {
         if(entry1 == -1 && entry2 == -1 && entry3 == -1) {
             print_result("Part one", "2020 triple-sum product", "<!>");
         } else {
-            print_trivia("2020 triple-sum entries", fmt::format("{} + {} + {}", entry1, entry2, entry3));
+            print_trivia_fmt("2020 triple-sum entries", {entry1, " + ", entry2, " + ", entry3});
             print_result("Part one", "2020 triple-sum product", entry1 * entry2 * entry3, 170098110);
         }
     }

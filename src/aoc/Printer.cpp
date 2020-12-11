@@ -3,6 +3,15 @@
 #include <sstream>
 #include <string>
 
+#define FG_DARK ANSI_FG_GREEN
+#define FG_LIGHT ANSI_FG_LIGHT_GREEN
+#define FG_GOLD ANSI_FG_LIGHT_YELLOW
+#define FG_RED ANSI_FG_RED
+#define FG_NORM ANSI_FG_DEFAULT
+
+#define BOLD_ON ANSI_BOLD_ON
+#define BOLD_OFF ANSI_BOLD_OFF
+
 namespace aoc {
 
 std::string center(const std::string &pad, size_t width, const std::string &text) {
@@ -64,54 +73,72 @@ void Printer::reset_day_state() { this->had_failure = false; }
 
 void Printer::print_header(const std::string &day_name) const {
     std::stringstream text;
-    text << " " << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << "Advent of Code " << year << ANSI_BOLD_OFF << ANSI_FG_GREEN
-         << ", day " << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << day_name << ANSI_BOLD_OFF << ANSI_FG_GREEN << " ";
+    text << " " << FG_LIGHT << BOLD_ON << "Advent of Code " << year << BOLD_OFF << FG_DARK
+         << ", day " << FG_GOLD << BOLD_ON << day_name << BOLD_OFF << FG_DARK << " ";
 
     text_width(text.str());
-    std::cout << ANSI_FG_GREEN << "╔" << center("═", pad_width, text.str()) << "╗" << ANSI_FG_DEFAULT << "\n";
+    std::cout << FG_DARK << "╔" << center("═", pad_width, text.str()) << "╗" << FG_NORM << "\n";
 }
 
 void Printer::print_footer(std::string &error_message) const {
     std::stringstream text;
     if (!error_message.empty()) {
-        text << ANSI_FG_RED << " Error: " << ANSI_BOLD_ON << error_message << ANSI_BOLD_OFF << " " << ANSI_FG_GREEN;
+        text << FG_RED << " Error: " << BOLD_ON << error_message << BOLD_OFF << " " << FG_DARK;
     } else {
         if (had_failure) {
-            text << ANSI_FG_RED << ANSI_BOLD_ON << " Failure " << ANSI_BOLD_OFF << ANSI_FG_GREEN;
+            text << FG_RED << BOLD_ON << " Failure " << BOLD_OFF << FG_DARK;
         } else {
-            text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << " Success " << ANSI_BOLD_OFF << ANSI_FG_GREEN;
+            text << FG_GOLD << BOLD_ON << " Success " << BOLD_OFF << FG_DARK;
         }
     }
-    std::cout << ANSI_FG_GREEN << "╚" << aoc::center("═", pad_width, text.str()) << "╝" << ANSI_FG_DEFAULT << "\n";
+    std::cout << FG_DARK << "╚" << aoc::center("═", pad_width, text.str()) << "╝" << FG_NORM << "\n";
 }
 
 void Printer::print_line(const std::string &text) const {
-    std::cout << ANSI_FG_GREEN << "║" << ANSI_FG_DEFAULT << aoc::center(" ", pad_width, text + ANSI_FG_DEFAULT)
-              << ANSI_FG_GREEN << "║" << ANSI_FG_DEFAULT << "\n";
+    std::cout << FG_DARK << "║" << FG_NORM << aoc::center(" ", pad_width, text + FG_NORM)
+              << FG_DARK << "║" << FG_NORM << "\n";
 }
 
-void Printer::print_trivia_impl(const std::string &description, const std::string &value) const {
+void Printer::print_trivia(const std::string &description, const LogValue &value) const {
     std::stringstream text;
-    text << ANSI_FG_GREEN << description << ANSI_FG_GREEN << ": " << ANSI_FG_LIGHT_GREEN << value;
+    text << FG_DARK << description << FG_DARK << ": " << FG_LIGHT << value.text;
+    print_line(text.str());
+}
+void Printer::print_trivia_fmt(const std::string &description, const std::vector<LogValue> &values) const {
+    std::stringstream text;
+    text << FG_DARK << description << FG_DARK << ": ";
+    bool dim = false;
+    for (auto &value : values) {
+        if(dim) {
+            text << FG_DARK << value.text;
+        } else {
+            text << FG_LIGHT << value.text;
+        }
+        dim = !dim;
+    }
     print_line(text.str());
 }
 
-void Printer::print_result_impl(const std::string &part_name, const std::string &description, const std::string &value,
-                                const std::string &correct_value) {
+void Printer::print_result(const std::string &part_name, const std::string &description, const LogValue &value) {
+    print_result(part_name, description, value, value);
+}
+
+void Printer::print_result(const std::string &part_name, const std::string &description, const LogValue &value,
+                                const LogValue &correct_value) {
     std::stringstream text;
-    text << " " << ANSI_FG_LIGHT_GREEN << ANSI_BOLD_ON << description << ANSI_BOLD_OFF << ANSI_FG_GREEN << ": ";
+    text << " " << FG_LIGHT << BOLD_ON << description << BOLD_OFF << FG_DARK << ": ";
 
     // the color for the padding lines. This is red if the result was incorrect
     std::string line_color;
-    if (value != correct_value) {
+    if (value.text != correct_value.text) {
         // if the value was incorrect, print `actual_value (correct_value)`
-        line_color = ANSI_FG_RED;
+        line_color = FG_RED;
         had_failure = true;
-        text << ANSI_FG_RED << ANSI_BOLD_ON << value << ANSI_BOLD_OFF << ANSI_FG_GREEN;
-        text << " (" << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << correct_value << ANSI_BOLD_OFF << ANSI_FG_GREEN << ")";
+        text << FG_RED << BOLD_ON << value.text << BOLD_OFF << FG_DARK;
+        text << " (" << FG_GOLD << BOLD_ON << correct_value.text << BOLD_OFF << FG_DARK << ")";
     } else {
-        line_color = ANSI_FG_GREEN;
-        text << ANSI_FG_LIGHT_YELLOW << ANSI_BOLD_ON << value << ANSI_BOLD_OFF;
+        line_color = FG_DARK;
+        text << FG_GOLD << BOLD_ON << value.text << BOLD_OFF;
     }
 
     text << line_color << " ";
@@ -119,12 +146,12 @@ void Printer::print_result_impl(const std::string &part_name, const std::string 
     std::string centered = aoc::center("─", pad_width, text.str());
 
     // insert the part name (e.g. "Part one", "Part two", "whatever") into the line
-    std::string part = std::string(" ") + ANSI_FG_LIGHT_YELLOW + part_name + line_color + " ";
+    std::string part = std::string(" ") + FG_GOLD + part_name + line_color + " ";
     // the box-drawing characters are multi-byte, but spaces are not, so use this as the base unit.
     size_t l = std::string("─").size();
     // "overwrite" a section of the padded string with the part name
     centered.replace(l, (part_name.size() + 2) * l, part);
 
-    std::cout << ANSI_FG_GREEN << "╟" << line_color << centered << ANSI_FG_GREEN << "╢" << ANSI_FG_DEFAULT << "\n";
+    std::cout << FG_DARK << "╟" << line_color << centered << FG_DARK << "╢" << FG_NORM << "\n";
 }
 } // namespace aoc
